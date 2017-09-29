@@ -1,5 +1,5 @@
 [package]
-name = "scribe"
+name = "quil"
 version = "0.1.0"
 authors = ["Robert Hurst <rhurst@e-xact.com>"]
 description = "A simple logger for Rust projects"
