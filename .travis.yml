@@ -1,0 +1,98 @@
+# Based on the "trust" template v0.1.1
+# https://github.com/japaric/trust/tree/v0.1.1
+
+dist: trusty
+language: rust
+services: docker
+sudo: required
+
+# TODO Rust builds on stable by default, this can be
+# overridden on a case by case basis down below.
+
+env:
+  global:
+    - CRATE_NAME=quil
+
+matrix:
+  include:
+    # Linux
+    - env: TARGET=i686-unknown-linux-gnu
+    - env: TARGET=i686-unknown-linux-musl
+    - env: TARGET=x86_64-unknown-linux-gnu
+    - env: TARGET=x86_64-unknown-linux-musl
+
+    # OSX
+    - env: TARGET=i686-apple-darwin
+      os: osx
+    - env: TARGET=x86_64-apple-darwin
+      os: osx
+
+    # *BSD
+    - env: TARGET=i686-unknown-freebsd DISABLE_TESTS=1
+    - env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
+    - env: TARGET=x86_64-unknown-netbsd DISABLE_TESTS=1
+
+    # Other architectures
+    - env: TARGET=aarch64-unknown-linux-gnu
+    - env: TARGET=armv7-unknown-linux-gnueabihf
+    - env: TARGET=mips-unknown-linux-gnu
+    - env: TARGET=mips64-unknown-linux-gnuabi64
+    - env: TARGET=mips64el-unknown-linux-gnuabi64
+    - env: TARGET=mipsel-unknown-linux-gnu
+    - env: TARGET=powerpc-unknown-linux-gnu
+    - env: TARGET=powerpc64-unknown-linux-gnu
+    - env: TARGET=powerpc64le-unknown-linux-gnu
+    - env: TARGET=s390x-unknown-linux-gnu DISABLE_TESTS=1
+
+    # Testing other channels
+    - env: TARGET=x86_64-unknown-linux-gnu
+      rust: nightly
+    - env: TARGET=x86_64-apple-darwin
+      os: osx
+      rust: nightly
+
+before_install:
+  - set -e
+  - rustup self update
+
+install:
+  - sh ci/install.sh
+  - source ~/.cargo/env || true
+
+script:
+  - bash ci/script.sh
+
+after_script: set +e
+
+before_deploy:
+  - sh ci/before_deploy.sh
+
+deploy:
+  api_key:
+    secure: cuyEwSjLplynk1N7e5NIKUKmxFTkQEeeLya4958xxiaRoXYRA3libxwLhyG9CqyCVV8nm+15rrZNeipvQbnPQns/heq+2D+hCwBYrBxP2iakB5IyTxS19ueuejqFTArYMlWssMd/Nm03fIVDUZTdg8iFXhUWEhwiVHns7/tFhZ9cVCmE8R1WDzZIylkIBMlufYY8E1SIlqrLSWLr2jJqGUUlzql/9vvcTgb9y6BHnT/mETg76DLoKvoi5Ek0EbxqSUB+JSukp5FmohKHbFg2zsRfQEE/szlOAmf5e1YbmTygNf83FuljtjMIwdVMnWNgLfrFMOoxLPjW27O3rJoGxn4VD1jSYrDqDymz4CHJZDFgiL2rTgpBCZmV88Cp//Yei28zMcXFhIFLvp/Ln1EcafBcKB/X04u8TSgQkDuy6C4DmZ64AeplhTfy3a6mzcGVJL+0wJmpcXqn/+oounjz9eaVIuDBwfyfikVpAl/i/Yk820Z0wRrr5N5X7U5jY3oAO2nDxGqFfh5jv5z3exdMVDNG5AA/Trq3J8+itGvYDvksGzHtNHLAVELTTih8B+lxT5WR+4V5u/2tF4KNyuEQvpl//HOCPYZqQwWZ+T2NKmONeuZzc7vgcguaSjlx7wkfP27ZYZBvykNnBGV3LxfdpRyCLQgcqG1NghmlbEl9THg=
+  file_glob: true
+  file: $CRATE_NAME-$TRAVIS_TAG-$TARGET.*
+  on:
+    # TODO Here you can pick which targets will generate binary releases
+    # In this example, there are some targets that are tested using the stable
+    # and nightly channels. This condition makes sure there is only one release
+    # for such targets and that's generated using the stable channel
+    condition: $TRAVIS_RUST_VERSION = stable
+    tags: true
+  provider: releases
+  skip_cleanup: true
+
+cache: cargo
+before_cache:
+  # Travis can't cache files that are not readable by "others"
+  - chmod -R a+r $HOME/.cargo
+
+branches:
+  only:
+    # release tags
+    - /^v\d+\.\d+\.\d+.*$/
+    - master
+
+notifications:
+  email:
+    on_success: never
