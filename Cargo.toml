@@ -1,0 +1,8 @@
+[package]
+name = "scribe"
+version = "0.1.0"
+authors = ["Robert Hurst <rhurst@e-xact.com>"]
+
+[dependencies]
+colored = "1.5"
+chrono = "0.4"
