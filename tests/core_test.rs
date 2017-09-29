@@ -1,6 +1,6 @@
-extern crate scribe;
+extern crate quil;
 
-use scribe::*;
+use quil::*;
 
 #[test]
 fn can_create_console_logger() {

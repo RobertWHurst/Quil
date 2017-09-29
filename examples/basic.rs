@@ -1,5 +1,5 @@
-extern crate scribe;
-use scribe::*;
+extern crate quil;
+use quil::*;
 
 fn main() {
     let mut logger = Logger::new(Console::new(), vec![("context", "example")]);
