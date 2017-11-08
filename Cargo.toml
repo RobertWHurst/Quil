@@ -1,6 +1,6 @@
 [package]
 name = "quil"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Robert Hurst <rhurst@e-xact.com>"]
 description = "A simple logger for Rust projects"
 license = "MIT"
