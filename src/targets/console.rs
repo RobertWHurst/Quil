@@ -4,6 +4,9 @@ use super::super::Context;
 use super::super::Level;
 use super::Target;
 
+/// Contains configuration options for a `Console` object.
+/// `ConsoleOptions` can be used to create `Console` objects with custom
+/// settings. All options default to false.
 pub struct ConsoleOptions {
   show_timestamp: bool,
   show_level: bool,
@@ -11,6 +14,7 @@ pub struct ConsoleOptions {
 }
 
 impl ConsoleOptions {
+  /// Creates a new instance of `ConsoleOptions`.
   pub fn new() -> Self {
     Self {
       show_timestamp: false,
@@ -19,21 +23,25 @@ impl ConsoleOptions {
     }
   }
 
+  /// Enable/disable timestamps.
   pub fn show_timestamp(mut self, show_timestamp: bool) -> Self {
     self.show_timestamp = show_timestamp;
     self
   }
 
+  /// Enable/disable log levels.
   pub fn show_level(mut self, show_level: bool) -> Self {
     self.show_level = show_level;
     self
   }
 
+  /// Enable/disable log message contexts.
   pub fn show_context(mut self, show_context: bool) -> Self {
     self.show_context = show_context;
     self
   }
 
+  /// Create a `Console` instance from the options set.
   pub fn build(self) -> Console {
     Console {
       show_timestamp: self.show_timestamp,
@@ -43,6 +51,7 @@ impl ConsoleOptions {
   }
 }
 
+/// Console is a logger target which logs human readable output to stdout
 pub struct Console {
   show_timestamp: bool,
   show_level: bool,
@@ -51,6 +60,10 @@ pub struct Console {
 
 /// Console target
 impl Console {
+  /// Create a new `Console` with default options.
+  /// This means timestamps levels and message contexts will be enabled.
+  /// If you wish to configure these options then it's recomended to use
+  /// `ConsoleOptions` to build your console instance.
   pub fn new() -> Self {
     Self {
       show_timestamp: true,
