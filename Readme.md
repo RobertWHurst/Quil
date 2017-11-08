@@ -2,7 +2,7 @@ Quil is a easy to use library that supports message levels, multiple
 targets, and message contexts. Quil is thread safe and so it is possible
 to send loggers accross threads.
 
-[Documentation](http://docs.rs/quil)
+[Documentation](https://docs.rs/quil)
 
 # Examples
 

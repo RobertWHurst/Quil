@@ -3,6 +3,9 @@ name = "quil"
 version = "0.3.1"
 authors = ["Robert Hurst <rhurst@e-xact.com>"]
 description = "A simple logger for Rust projects"
+documentation = "https://docs.rs/quil"
+homepage = "https://github.com/RobertWHurst/Quil"
+repository = "git@github.com:RobertWHurst/Quil.git"
 license = "MIT"
 
 [dependencies]
