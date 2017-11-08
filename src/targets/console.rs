@@ -6,6 +6,7 @@ use super::Target;
 
 pub struct Console;
 
+/// Console target
 impl Console {
   pub fn new() -> Self {
     Self {}
@@ -19,9 +20,12 @@ impl Target for Console {
     let mut context_pairs: Vec<_> = context.iter().collect();
     context_pairs.sort_by(|a, b| a.0.cmp(b.0));
 
-    for (key, val) in context_pairs.into_iter() {
-      message += &format!(" {}={}", key, val);
-    }
+    message += " ";
+    message += &context_pairs
+      .into_iter()
+      .map(|(key, val)| format!("{}={}", key, val))
+      .collect::<Vec<String>>()
+      .join(" ");
 
     let level_str = level.to_string();
     let pad = " ".repeat(7 - level_str.chars().count());

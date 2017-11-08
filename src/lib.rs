@@ -42,17 +42,17 @@
 extern crate chrono;
 extern crate colored;
 
-mod level;
 #[macro_use]
 mod context;
+mod level;
 mod logger;
 
 #[macro_use]
 pub mod targets;
 
-pub use level::Level;
 pub use targets::Target;
 pub use context::Context;
+pub use level::Level;
 pub use logger::Logger;
 
 /// A convenience module that can be used to include commonly used quil types.
@@ -63,7 +63,7 @@ pub use logger::Logger;
 /// use quil::prelude::*;
 /// ```
 pub mod prelude {
-  pub use targets::Console;
+  pub use targets::{Console, JsonFile};
   pub use level::Level::*;
   pub use context::Context;
   pub use logger::Logger;
