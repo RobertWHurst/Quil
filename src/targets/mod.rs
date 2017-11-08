@@ -1,3 +1,6 @@
+//! Contains logger targets and the target trait for implementing custom
+//! targets
+
 mod console;
 mod dump;
 mod escape_chars;
@@ -6,7 +9,7 @@ mod json_file;
 mod target_set;
 mod target;
 
-pub use self::console::Console;
+pub use self::console::{Console, ConsoleOptions};
 pub use self::dump::Dump;
 pub use self::escape_chars::escape_chars;
 pub use self::json_file::JsonFile;

@@ -1,0 +1,6 @@
+{ "level": "info", "message": "hello world", "context": { "src": "\"example" } }
+{ "level": "verbose", "message": "beep \"\\ boop", "context": { "src": "\"example", "sub_src": "subspace" } }
+{ "level": "warn", "message": "beep beep", "context": { "src": "\"example", "sub_src": "subspace" } }
+{ "level": "info", "message": "hello world", "context": { "src": "\"example" } }
+{ "level": "verbose", "message": "beep \"\\ boop", "context": { "sub_src": "subspace", "src": "\"example" } }
+{ "level": "warn", "message": "beep beep", "context": { "sub_src": "subspace", "src": "\"example" } }
