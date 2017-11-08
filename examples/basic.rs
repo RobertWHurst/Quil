@@ -1,12 +1,15 @@
+#[macro_use(targets, context)]
 extern crate quil;
-use quil::*;
+use quil::prelude::*;
 
 fn main() {
-    let mut logger = Logger::new(Console::new(), vec![("context", "example")]);
+  let logger = Logger::new(targets![Console::new()], context!{ src: "example" });
+  logger.info("hello world");
 
-    logger.log(Level::Error, "foo bar baz");
+  let sub_logger = logger.ctx(context!{
+    sub_src: "subspace"
+  });
+  sub_logger.verbose("beep boop");
 
-    let mut sub_logger = logger.child(vec![("context", "sub-example")]);
-
-    sub_logger.log(Level::Info, "test");
+  sub_logger.ctx(context!{ sub_src: "" }).warn("beep beep");
 }
