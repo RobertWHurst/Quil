@@ -5,7 +5,7 @@ authors = ["Robert Hurst <rhurst@e-xact.com>"]
 description = "A simple logger for Rust projects"
 documentation = "https://docs.rs/quil"
 homepage = "https://github.com/RobertWHurst/Quil"
-repository = "git@github.com:RobertWHurst/Quil.git"
+repository = "https://github.com/RobertWHurst/Quil"
 license = "MIT"
 
 [dependencies]
