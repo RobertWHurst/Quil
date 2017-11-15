@@ -19,13 +19,13 @@ use super::Level;
 /// # }
 /// ```
 #[derive(Clone)]
-pub struct Logger<'a> {
-  target: Arc<Mutex<Box<Target + 'a>>>,
+pub struct Logger {
+  target: Arc<Mutex<Box<Target + 'static>>>,
   level: Arc<RwLock<Level>>,
   context: Arc<Context>,
 }
 
-impl<'a> Logger<'a> {
+impl Logger {
   /// Creates a new logger from a target and context.
   ///
   /// The target can be any type that implements the
@@ -46,7 +46,7 @@ impl<'a> Logger<'a> {
   ///             to the target.
   pub fn new<T>(target: T, context: Context) -> Self
   where
-    T: Target + 'a,
+    T: Target + 'static,
   {
     Self {
       target: Arc::new(Mutex::new(Box::new(target))),
@@ -80,7 +80,7 @@ impl<'a> Logger<'a> {
   /// * `target` - The target you'd like the logger to use.
   pub fn set_target<T>(&self, target: T)
   where
-    T: Target + 'a,
+    T: Target + 'static,
   {
     *self.target.lock().unwrap() = Box::new(target);
   }
@@ -249,5 +249,5 @@ impl<'a> Logger<'a> {
   }
 }
 
-unsafe impl<'a> Send for Logger<'a> {}
-unsafe impl<'a> Sync for Logger<'a> {}
+unsafe impl Send for Logger {}
+unsafe impl Sync for Logger {}
