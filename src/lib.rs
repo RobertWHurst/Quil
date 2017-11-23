@@ -1,6 +1,6 @@
 //! Quil is a easy to use library that supports message levels, multiple
-//! targets, and message contexts. Quil is thread safe and so it is possible
-//! to send loggers accross threads.
+//! output targets, sub-loggers, and message contexts. Quil can be used across
+//! threads safely, and is easy to extend.
 //!
 //! # Examples
 //!
@@ -37,6 +37,37 @@
 //! ```shell
 //! Tue,  7 Nov 2017 23:55:42 +0000 - info:    hello src=root tag=1
 //! Tue,  7 Nov 2017 23:55:42 +0000 - info:    world src=root marker=49
+//! ```
+//!
+//! Multi-target example:
+//!
+//! ```rust
+//! # #[macro_use] extern crate quil;
+//! # fn main() {
+//! # use quil::prelude::*;
+//! let logger = Logger::new(targets![
+//!   Console::new(),
+//!   JsonFile::open("path/to/logfile.json"),
+//! ], context!{ some_meta_key: "some_meta_value" });
+//! 
+//! logger.info("hello");
+//!
+//! let sub_logger = logger.ctx(context!{ marker: "49" });
+//! logger.warn("world");
+//! # }
+//! ```
+//!
+//! _Shell_:
+//! 
+//! ```shell
+//! Tue,  7 Nov 2017 23:55:42 +0000 - info:    hello some_meta_key=some_meta_value
+//! Tue,  7 Nov 2017 23:55:42 +0000 - warn:    world some_meta_key=some_meta_value marker=49
+//! ```
+//! _Log File_:
+//! 
+//! ```json
+//! { "level": "info", "message": "hello", "context": { "some_meta_key": "some_meta_value" } }
+//! { "level": "warn", "message": "world", "context": { "some_meta_key": "some_meta_value", "marker": "49" } }
 //! ```
 
 extern crate chrono;
